@@ -86,7 +86,7 @@ namespace AnalizadorLexico
             Console.WriteLine("LISTO PARA SU RESOLUCIÓN");
             for (int i = 0; i < Separaciones.Count; i++)
             {
-                Console.WriteLine(Separaciones[i].content);
+                Console.WriteLine(String.Join(", ",Separaciones[i].content));
             }
             Console.WriteLine("\n");
             Console.WriteLine("=========================");
@@ -363,7 +363,6 @@ namespace AnalizadorLexico
         }
         private string SearchNextAZ_09(string cadena)
         {
-            Console.WriteLine(cadena+"------");
             if (string.IsNullOrEmpty(cadena))
                 return "";
 

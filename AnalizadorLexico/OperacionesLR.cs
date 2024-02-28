@@ -227,14 +227,14 @@ namespace AnalizadorLexico
             tmp.Add(idents[0] + idents[1]);
             tmp2.Add(idents[1] + idents[0]);
 
-            tmp.Add(tmp[0] + tmp[tmp.Count - 1]);
-            tmp2.Add(tmp2[0] + tmp2[tmp2.Count - 1]);
+            tmp.Add(idents[0] + tmp[tmp.Count - 1]);
+            tmp2.Add(idents[1] + tmp2[tmp2.Count - 1]);
 
-            tmp.Add(tmp[tmp.Count - 2] + tmp[0]);
-            tmp2.Add(tmp2[tmp2.Count - 2] + tmp2[0]);
+            tmp.Add(tmp[tmp.Count - 2] + idents[0]);
+            tmp2.Add(tmp2[tmp2.Count - 2] + idents[1]);
 
-            tmp.Add(tmp[0] + tmp2[1]);
-            tmp2.Add(tmp2[0] + tmp[1]);
+            tmp.Add(idents[0] + tmp2[1]);
+            tmp2.Add(idents[1] + tmp[1]);
 
             Console.WriteLine("Idents: " + string.Join(", ", idents));
             Console.WriteLine("Temp: " + string.Join(", ", tmp));

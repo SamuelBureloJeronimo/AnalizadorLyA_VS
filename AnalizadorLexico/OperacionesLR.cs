@@ -212,31 +212,31 @@ namespace AnalizadorLexico
 
         public List<string> exp2doOrdenUnion(List<string> idents, string tipo)
         {
-            Console.WriteLine("Esta es una OP U");
-            List<string> tmp = resolver2doOrden(idents[0], tipo);
-            List<string> tmp2 = resolver2doOrden(idents[1], tipo);
-            tmp.Add(idents[0] + idents[1]);
-            tmp2.Add(idents[1] + idents[0]);
-
-            tmp.Add(idents[0] + tmp[tmp.Count - 1]);
-            tmp2.Add(idents[1] + tmp2[tmp2.Count - 1]);
-
-            tmp.Add(tmp[tmp.Count - 2] + idents[0]);
-            tmp2.Add(tmp2[tmp2.Count - 2] + idents[1]);
-
-            tmp.Add(idents[0] + tmp2[1]);
-            tmp2.Add(idents[1] + tmp[1]);
-
-            Console.WriteLine("Idents: " + string.Join(", ", idents));
-            Console.WriteLine("Temp: " + string.Join(", ", tmp));
-            Console.WriteLine("Temp2: " + string.Join(", ", tmp2));
-
-            foreach (string str in tmp2)
+            List<string> result = new List<string>();
+            String cadena = "(" + idents[0] + "|" + idents[1] + ").";
+            result = resolver2doOrden(cadena, tipo);
+            AnalizadorLexico anl = new AnalizadorLexico();
+            List<string> finalResult = new List<string>();
+            for (int i = 0; i < result.Count; i++)
             {
-                tmp.Add(str);
+                List<string> tmp;
+                if (result[i].Equals("Ɛ"))
+                    finalResult.Add("Ɛ");
+                else
+                {
+                    cadena = result[i].Substring(0, result[i].Length - 1);
+                    Console.WriteLine(cadena);
+                    tmp = anl.solucionFinal(anl.IdentificarOrden(anl.AnalizarCadena(cadena)));
+                    for (int j = 0; j < tmp.Count; j++)
+                    {
+                        finalResult.Add((String)tmp[j]);
+                    }
+                }
             }
 
-            return tmp;
+            Console.WriteLine(String.Join(", ", finalResult));
+
+            return finalResult;
         }
 
         public List<string> resolver2doOrden(List<string> idents, string tipo)
@@ -255,7 +255,7 @@ namespace AnalizadorLexico
 
         public List<string> resolver2doOrden(string ident, string tipo)
         {
-            int MAX_ELEM = 3;
+            int MAX_ELEM = 4;
             List<string> result = new List<string>();
             string sum = "";
             if (ident.Equals("Ɛ", StringComparison.OrdinalIgnoreCase))

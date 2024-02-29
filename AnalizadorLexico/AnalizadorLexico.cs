@@ -11,7 +11,7 @@ namespace AnalizadorLexico
 {
     public class AnalizadorLexico
     {
-        public List<Derivaciones> Separaciones = new List<Derivaciones>();
+        public List<Derivaciones> Separaciones;
         public OperacionesLR op = new OperacionesLR();
         public String analisisLexico = "";
         public List<String> solucionFinal(List<Derivaciones> Separaciones)
@@ -40,6 +40,10 @@ namespace AnalizadorLexico
 
                 }
                 Console.WriteLine(Separaciones[i].content[0]);
+                if (Separaciones[0].content[0].Equals("|") || Separaciones[0].content[0].Equals("."))
+                {
+                    Separaciones.RemoveAt(0);
+                }
                 //Si se repite el signo en el siguiente
                 if (Separaciones[i].content[0].Equals("|"))
                 {
@@ -137,6 +141,7 @@ namespace AnalizadorLexico
         }
         public List<Derivaciones> IdentificarOrden(List<Token> tokensAnalizados)
         {
+            Separaciones = new List<Derivaciones>();
             Console.WriteLine("\n==== Indentificar el orden de resolución de la ecuación ====\n");
 
             //eliminarCadenaVacia();

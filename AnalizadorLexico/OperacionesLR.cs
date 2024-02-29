@@ -48,9 +48,9 @@ namespace AnalizadorLexico
 
         public List<string> unirCadenas(List<string> cad1, List<string> cad2)
         {
-            foreach (var item in cad2)
+            for (int i = 0; i < cad2.Count; i++)
             {
-                cad1.Add(item);
+                cad1.Add(cad2[i]);
             }
             return cad1;
         }
@@ -168,7 +168,7 @@ namespace AnalizadorLexico
                 Console.WriteLine("=========================");
                 foreach (var res in result)
                 {
-                    Console.WriteLine(res.content);
+                    Console.WriteLine(String.Join(", ", res.content));
                 }
                 Console.WriteLine("=========================");
                 int vuelta = 0;
@@ -213,17 +213,8 @@ namespace AnalizadorLexico
         public List<string> exp2doOrdenUnion(List<string> idents, string tipo)
         {
             Console.WriteLine("Esta es una OP U");
-            List<string> result = new List<string>();
             List<string> tmp = resolver2doOrden(idents[0], tipo);
             List<string> tmp2 = resolver2doOrden(idents[1], tipo);
-            for (int j = 0; j < tmp.Count; j++)
-            {
-                result.Add(tmp[j]);
-            }
-            for (int j = 0; j < tmp2.Count; j++)
-            {
-                result.Add(tmp2[j]);
-            }
             tmp.Add(idents[0] + idents[1]);
             tmp2.Add(idents[1] + idents[0]);
 

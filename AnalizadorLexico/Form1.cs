@@ -37,6 +37,7 @@ namespace AnalizadorLexico
         private void bunifuFlatButton1_Click(object sender, EventArgs e)
         {
             entrada.Text = entrada.Text + "Ɛ";
+            entrada.Focus();
         }
 
         private void bunifuFlatButton2_Click(object sender, EventArgs e)
@@ -47,21 +48,49 @@ namespace AnalizadorLexico
         private void bunifuFlatButton3_Click(object sender, EventArgs e)
         {
             entrada.Text = entrada.Text + "^+";
+            entrada.Focus();
         }
 
         private void bunifuFlatButton4_Click(object sender, EventArgs e)
         {
             entrada.Text = entrada.Text + "^";
+            entrada.Focus();
         }
 
         private void bunifuFlatButton5_Click(object sender, EventArgs e)
         {
             entrada.Text = entrada.Text + "|";
+            entrada.Focus();
         }
 
         private void bunifuFlatButton6_Click(object sender, EventArgs e)
         {
             entrada.Text = entrada.Text + ".";
+            entrada.Focus();
+        }
+
+        private void bunifuFlatButton10_Click(object sender, EventArgs e)
+        {
+            salida2.Text = "";
+            String res = "";
+            for (int i = cadenaInt.Text.Length; i > 0; i--)
+            {
+                res += "S = "+cadenaInt.Text.Substring(0, i)+"\n";
+            }
+            res += "S = Ɛ";
+            salida1.Text = res;
+        }
+
+        private void bunifuFlatButton9_Click(object sender, EventArgs e)
+        {
+            salida2.Text = "";
+            String res = "";
+            for (int i = 0; i < cadenaInt.Text.Length; i++)
+            {
+                res += "S = " + cadenaInt.Text.Substring(i) + "\n";
+            }
+            res += "S = Ɛ";
+            salida1.Text = res;
         }
     }
 }

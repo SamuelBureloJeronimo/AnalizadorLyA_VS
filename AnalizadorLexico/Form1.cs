@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AnalizadorLexico
 {
@@ -36,36 +37,62 @@ namespace AnalizadorLexico
 
         private void bunifuFlatButton1_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + "Ɛ";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, "Ɛ", 0);
+            entrada.SelectionStart = index + 1;
+            entrada.SelectionLength = 0;
             entrada.Focus();
         }
 
         private void bunifuFlatButton2_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + "^*";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, "^*", 0);
+            entrada.SelectionStart = index + 2;
+            entrada.SelectionLength = 0;
+            entrada.Focus();
         }
 
         private void bunifuFlatButton3_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + "^+";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, "^+", 0);
+            entrada.SelectionStart = index+2;
+            entrada.SelectionLength = 0;
             entrada.Focus();
+        }
+
+        private String ingresar(int pos, String cad, String extr, int i)
+        {
+            if (pos == i)
+                return extr+cad;
+            return cad.Substring(0, 1) + ingresar(pos, cad.Substring(1), extr, i+1);
         }
 
         private void bunifuFlatButton4_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + "^";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, "^", 0);
+            entrada.SelectionStart = index + 1;
+            entrada.SelectionLength = 0;
             entrada.Focus();
         }
 
         private void bunifuFlatButton5_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + "|";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, "|", 0);
+            entrada.SelectionStart = index + 1;
+            entrada.SelectionLength = 0;
             entrada.Focus();
         }
 
         private void bunifuFlatButton6_Click(object sender, EventArgs e)
         {
-            entrada.Text = entrada.Text + ".";
+            int index = entrada.SelectionStart;
+            entrada.Text = ingresar(index, entrada.Text, ".", 0);
+            entrada.SelectionStart = index + 1;
+            entrada.SelectionLength = 0;
             entrada.Focus();
         }
 

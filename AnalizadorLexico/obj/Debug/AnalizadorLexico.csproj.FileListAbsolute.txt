@@ -11,3 +11,16 @@ D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\Analizado
 D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLexico\AnalizadorLexico\bin\Debug\Bunifu_UI_v1.5.3.dll
 D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.Form1.resources
 D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.CopyComplete
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\bin\Debug\AnalizadorLexico.exe.config
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\bin\Debug\AnalizadorLexico.exe
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\bin\Debug\AnalizadorLexico.pdb
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\bin\Debug\Bunifu_UI_v1.5.3.dll
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.AssemblyReference.cache
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.SuggestedBindingRedirects.cache
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.Form1.resources
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.Properties.Resources.resources
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.GenerateResource.cache
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.CoreCompileInputs.cache
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.CopyComplete
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.exe
+D:\TECNOLOGICO ITSM\6th Semester (in progress)\Language and Automata 1\AnalizadorLyA_VS\AnalizadorLexico\obj\Debug\AnalizadorLexico.pdb

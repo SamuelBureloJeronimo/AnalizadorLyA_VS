@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -63,7 +64,7 @@ namespace AnalizadorLexico
             arr.RemoveAt(arr.Count - 1);
             AnalizadorLexico anl = new AnalizadorLexico();
             List<Derivaciones> result = anl.IdentificarOrden(arr);
-
+            // EXPONENCIACIÓN
             if (!exp.Equals(""))
             {
                 Console.WriteLine("Namas Expongo y ya. de DRIVARCION:");
@@ -100,25 +101,16 @@ namespace AnalizadorLexico
                         break;
                     }
                 }
-                if (uniones == 1)
-                {
-                    Derivaciones der = new Derivaciones();
-                    der.content = exp2doOrdenUnion(result[0].content, exp);
-                    result[0] = der;
-                    Console.WriteLine("Es una union");
-                    Console.WriteLine("RESULTADO:" + String.Join(", ", der.content));
-                    return result;
-                }
-                else
-                {
-                    Derivaciones der = new Derivaciones();
-                    der.content = resolver2doOrden(result[result.Count - 1].content, exp);
-                    result[0] = der;
-                    Console.WriteLine("No es una union");
-                    Console.WriteLine("RESULTADO:" + String.Join(", ", der.content));
-                    return result;
-                }
+
+                Derivaciones der = new Derivaciones();
+                der.content = exp2doOrdenUnion(result[result.Count - 1].content, exp);
+                result[0] = der;
+                Console.WriteLine("RESULTADO:" + String.Join(", ", der.content));
+                return result;
+                
             }
+            
+            // SIN EXPONENTE
             else
             {
                 if (result.Count == 1)
@@ -212,50 +204,68 @@ namespace AnalizadorLexico
 
         public List<string> exp2doOrdenUnion(List<string> idents, string tipo)
         {
-            List<string> result = new List<string>();
-            String cadena = "(" + idents[0] + "|" + idents[1] + ").";
-            result = resolver2doOrden(cadena, tipo);
-            AnalizadorLexico anl = new AnalizadorLexico();
-            List<string> finalResult = new List<string>();
-            for (int i = 0; i < result.Count; i++)
-            {
-                List<string> tmp;
-                if (result[i].Equals("Ɛ"))
-                    finalResult.Add("Ɛ");
-                else
-                {
-                    cadena = result[i].Substring(0, result[i].Length - 1);
-                    Console.WriteLine(cadena);
-                    tmp = anl.solucionFinal(anl.IdentificarOrden(anl.AnalizarCadena(cadena)));
-                    for (int j = 0; j < tmp.Count; j++)
-                    {
-                        finalResult.Add((String)tmp[j]);
-                    }
-                }
-            }
+            List<string> result = new List<String>();
+            List<string> tmp = new List<String>();
 
-            Console.WriteLine(String.Join(", ", finalResult));
-
-            return finalResult;
-        }
-
-        public List<string> resolver2doOrden(List<string> idents, string tipo)
-        {
-            List<string> result = new List<string>();
             for (int i = 0; i < idents.Count; i++)
             {
-                List<String> tmp = resolver2doOrden(idents[i], tipo);
-                for (int j = 0; j < tmp.Count; j++)
+                result.Add(idents[i]);
+                tmp.Add(idents[i]);
+            }
+
+            int MAX_ELEM = 3;
+
+            //TIPO: Cerradura de Kleene
+            if (tipo.Equals("*", StringComparison.OrdinalIgnoreCase))
+            {
+                result.Add("Ɛ");
+                for (int i = 1; i < MAX_ELEM; i++)
                 {
-                    result.Add(tmp[j]);
+                    tmp = concatenarCadenas(idents, tmp);
+                    for (int j = 0; j < tmp.Count; j++)
+                    {
+                        result.Add((string)tmp[j]);
+                    }
+                    Console.WriteLine("KLEENE: "+String.Join(", ", tmp));
+                }
+            }
+            //TIPO: Cerradura Positiva
+            else if (tipo.Equals("+", StringComparison.OrdinalIgnoreCase))
+            {
+                for (int i = 1; i < MAX_ELEM; i++)
+                {
+                    tmp = concatenarCadenas(idents, tmp);
+                    for (int j = 0; j < tmp.Count; j++)
+                    {
+                        result.Add((string)tmp[j]);
+                    }
+                    Console.WriteLine("POSITIVA: " + String.Join(", ", tmp));
+                }
+            }
+            //TIPO: Exponenciación
+            else if (Regex.IsMatch(tipo, "[0-9]*"))
+            {
+                if (int.Parse(tipo) == 1)
+                    return idents;
+                
+                result.Add("Ɛ");
+                for (int i = 1; i < int.Parse(tipo); i++)
+                {
+                    tmp = concatenarCadenas(idents, tmp);
+                    for (int j = 0; j < tmp.Count; j++)
+                    {
+                        result.Add((string)tmp[j]);
+                    }
+                    Console.WriteLine("EXP: " + String.Join(", ", tmp));
                 }
             }
             return result;
         }
 
+
         public List<string> resolver2doOrden(string ident, string tipo)
         {
-            int MAX_ELEM = 4;
+            int MAX_ELEM = 3;
             List<string> result = new List<string>();
             string sum = "";
             if (ident.Equals("Ɛ", StringComparison.OrdinalIgnoreCase))
@@ -286,6 +296,10 @@ namespace AnalizadorLexico
             }
             else if (Regex.IsMatch(tipo, "[0-9]*"))
             {
+                if (int.Parse(tipo) == 1) {
+                    result.Add((string) ident);
+                    return result;
+                }
                 result.Add("Ɛ");
                 for (int i = 0; i < int.Parse(tipo); i++)
                 {

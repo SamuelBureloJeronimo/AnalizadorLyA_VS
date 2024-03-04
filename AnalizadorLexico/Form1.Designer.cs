@@ -33,6 +33,7 @@
             this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.entrada = new System.Windows.Forms.TextBox();
             this.cadenaInt = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.bunifuFlatButton10 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,7 +50,8 @@
             this.salida2 = new System.Windows.Forms.RichTextBox();
             this.salida1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.entrada = new System.Windows.Forms.TextBox();
+            this.consola = new System.Windows.Forms.RichTextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -141,6 +143,14 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(312, 562);
             this.panel1.TabIndex = 6;
+            // 
+            // entrada
+            // 
+            this.entrada.Font = new System.Drawing.Font("Segoe UI Semilight", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.entrada.Location = new System.Drawing.Point(15, 67);
+            this.entrada.Name = "entrada";
+            this.entrada.Size = new System.Drawing.Size(278, 33);
+            this.entrada.TabIndex = 17;
             // 
             // cadenaInt
             // 
@@ -522,7 +532,7 @@
             // 
             // salida1
             // 
-            this.salida1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salida1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.salida1.Location = new System.Drawing.Point(3, 32);
             this.salida1.Name = "salida1";
             this.salida1.Size = new System.Drawing.Size(388, 530);
@@ -539,19 +549,34 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Salida...";
             // 
-            // entrada
+            // consola
             // 
-            this.entrada.Font = new System.Drawing.Font("Segoe UI Semilight", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.entrada.Location = new System.Drawing.Point(15, 67);
-            this.entrada.Name = "entrada";
-            this.entrada.Size = new System.Drawing.Size(278, 33);
-            this.entrada.TabIndex = 17;
+            this.consola.BackColor = System.Drawing.Color.Black;
+            this.consola.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consola.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.consola.Location = new System.Drawing.Point(12, 609);
+            this.consola.Name = "consola";
+            this.consola.Size = new System.Drawing.Size(1000, 189);
+            this.consola.TabIndex = 8;
+            this.consola.Text = "";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(12, 588);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(132, 18);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Procedimiento...";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1027, 589);
+            this.ClientSize = new System.Drawing.Size(1027, 807);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.consola);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -561,6 +586,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -588,6 +614,8 @@
         private System.Windows.Forms.Label label6;
         private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton9;
         private System.Windows.Forms.TextBox entrada;
+        private System.Windows.Forms.RichTextBox consola;
+        private System.Windows.Forms.Label label7;
     }
 }
 

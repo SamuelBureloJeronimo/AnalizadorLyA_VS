@@ -14,6 +14,7 @@ namespace AnalizadorLexico
         public List<Derivaciones> Separaciones;
         public OperacionesLR op = new OperacionesLR();
         public String analisisLexico = "";
+        public String salidaConsola = "";
         public List<String> solucionFinal(List<Derivaciones> Separaciones)
         {
             Console.WriteLine("== Eliminar las cadenas vacías ==");
@@ -88,6 +89,8 @@ namespace AnalizadorLexico
 
             Console.WriteLine("=== CASI FINAL XD ===\n");
             Console.WriteLine("LISTO PARA SU RESOLUCIÓN");
+            salidaConsola += "==============================";
+            salidaConsola += "LISTO PARA SU RESOLUCIÓN";
             for (int i = 0; i < Separaciones.Count; i++)
             {
                 Console.WriteLine(String.Join(", ",Separaciones[i].content));
@@ -104,6 +107,7 @@ namespace AnalizadorLexico
                         Console.WriteLine("Vuelta: " + vuelta);
                         if (Separaciones[i].content[0].Equals("."))
                         {
+
                             Console.WriteLine("=======");
                             Console.WriteLine("Cad1:" + String.Join(", ", Separaciones[i - 1].content));
                             Console.WriteLine("Cad2: " + String.Join(", ", Separaciones[i + 1].content));
@@ -111,10 +115,18 @@ namespace AnalizadorLexico
                             Console.WriteLine("CONCATENAR: " + String.Join(", ", Separaciones[i + 1].content));
                             vuelta = i + 2;
                             Console.WriteLine("=======");
+
+                            salidaConsola += "========\n\n";
+                            salidaConsola += "Cad1:" + String.Join(", ", Separaciones[i - 1].content) + "\n";
+                            salidaConsola += "Cad2: " + String.Join(", ", Separaciones[i + 1].content) + "\n";
+                            salidaConsola += "CONCATENAR: " + String.Join(", ", Separaciones[i + 1].content);
+                            salidaConsola += "========\n\n";
+
                             break;
                         }
                         else if (Separaciones[i].content[0].Equals("|"))
                         {
+
                             Console.WriteLine("=======");
                             Console.WriteLine("Cad1:" + String.Join(", ", Separaciones[i - 1].content));
                             Console.WriteLine("Cad2: " + String.Join(", ", Separaciones[i + 1].content));
@@ -122,6 +134,13 @@ namespace AnalizadorLexico
                             Console.WriteLine("UNIR: " + String.Join(", ", Separaciones[i + 1].content));
                             vuelta = i + 2;
                             Console.WriteLine("=======");
+
+                            salidaConsola += "========\n\n";
+                            salidaConsola += "Cad1:" + String.Join(", ", Separaciones[i - 1].content) + "\n";
+                            salidaConsola += "Cad2: " + String.Join(", ", Separaciones[i + 1].content) + "\n";
+                            salidaConsola += "UNIR: " + String.Join(", ", Separaciones[i + 1].content);
+                            salidaConsola += "========\n\n";
+
                             break;
                         }
                     }
@@ -131,11 +150,9 @@ namespace AnalizadorLexico
                     }
                 }
             }
-
+            salidaConsola += "\n\nResultado: " + String.Join(", ", Separaciones[Separaciones.Count - 1].content);
             Console.WriteLine("Resultado:");
             Console.WriteLine(String.Join(", ", Separaciones[Separaciones.Count - 1].content));
-
-            Console.WriteLine("\n\nFinal");
 
             return Separaciones[Separaciones.Count - 1].content;
         }
@@ -143,7 +160,7 @@ namespace AnalizadorLexico
         {
             Separaciones = new List<Derivaciones>();
             Console.WriteLine("\n==== Indentificar el orden de resolución de la ecuación ====\n");
-
+            salidaConsola += "";
             //eliminarCadenaVacia();
             Console.WriteLine("=== Inicio ===");
 
@@ -291,6 +308,7 @@ namespace AnalizadorLexico
         }
         public List<Token> AnalizarCadena(string cadena)
         {
+            salidaConsola = "";
             List<Token> tokensAnalizados = new List<Token>();
             analisisLexico = "==== ANALIZADOR LÉXICO ====\n";
             Console.WriteLine("==== ANALIZADOR LÉXICO By Samuel Burelos Jerónimo ====\n");
@@ -364,6 +382,7 @@ namespace AnalizadorLexico
                     }
                 }
             }
+            salidaConsola += analisisLexico+"\n";
             return tokensAnalizados;
         }
         private string SearchNextAZ_09(string cadena)

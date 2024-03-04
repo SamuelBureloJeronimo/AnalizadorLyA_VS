@@ -26,6 +26,7 @@ namespace AnalizadorLexico
             List<String> solucionFinal = al.solucionFinal(al.IdentificarOrden(al.AnalizarCadena(entrada.Text)));
             salida1.Text = String.Join(", ",solucionFinal).Replace("Ɛ, ", "");
             salida2.Text = al.analisisLexico;
+            consola.Text = al.salidaConsola;
         }
 
         private void bunifuFlatButton8_Click(object sender, EventArgs e)

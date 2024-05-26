@@ -23,8 +23,10 @@ namespace AnalizadorLexico
 
         private void bunifuFlatButton7_Click(object sender, EventArgs e)
         {
+            al.analisisLexico = "";
+            al.salidaConsola = "";
             List<String> solucionFinal = al.solucionFinal(al.IdentificarOrden(al.AnalizarCadena(entrada.Text)));
-            salida1.Text = String.Join(", ",solucionFinal).Replace("Ɛ, ", "");
+            salida1.Text = String.Join(", ", solucionFinal);//.Replace("Ɛ, ", "");Separaciones[Separaciones.Count - 1].content)
             salida2.Text = al.analisisLexico;
             consola.Text = al.salidaConsola;
         }

@@ -532,7 +532,7 @@
             // 
             // salida1
             // 
-            this.salida1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salida1.Font = new System.Drawing.Font("Segoe Print", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.salida1.Location = new System.Drawing.Point(3, 32);
             this.salida1.Name = "salida1";
             this.salida1.Size = new System.Drawing.Size(388, 530);
@@ -552,7 +552,7 @@
             // consola
             // 
             this.consola.BackColor = System.Drawing.Color.Black;
-            this.consola.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consola.Font = new System.Drawing.Font("Segoe UI Semilight", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consola.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.consola.Location = new System.Drawing.Point(12, 609);
             this.consola.Name = "consola";

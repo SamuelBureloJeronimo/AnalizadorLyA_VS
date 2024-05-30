@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AnalizadorLexico
 {
@@ -26,7 +18,7 @@ namespace AnalizadorLexico
             al.analisisLexico = "";
             al.salidaConsola = "";
             List<String> solucionFinal = al.solucionFinal(al.IdentificarOrden(al.AnalizarCadena(entrada.Text)));
-            salida1.Text = String.Join(", ", solucionFinal);//.Replace("Ɛ, ", "");Separaciones[Separaciones.Count - 1].content)
+            salida1.Text = String.Join(", ", solucionFinal);
             salida2.Text = al.analisisLexico;
             consola.Text = al.salidaConsola;
         }

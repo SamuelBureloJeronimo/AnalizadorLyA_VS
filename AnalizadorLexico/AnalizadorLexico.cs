@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -170,16 +171,10 @@ namespace AnalizadorLexico
         }
         public List<Derivaciones> IdentificarOrden(List<Token> tokensAnalizados)
         {
-            Separaciones = new List<Derivaciones>();
-            Console.WriteLine("\n==== Indentificar el orden de resolución de la ecuación ====\n");
-            salidaConsola += " ====== IDENTIFICAR EL ORDEN DE RESOLUCIÓN DE LA ECUACIÓN ======\n\n";
-
-            Console.WriteLine("=== Inicio ===");
-
             for (int i = 0; i < tokensAnalizados.Count; i++)
             {
                 //Juntar una exponenciacion cuando la base es un Identificador
-                if (tokensAnalizados[i].getCateg().Equals("Identificador") || tokensAnalizados[i].getLex().Equals("Ɛ"))
+                if (tokensAnalizados[i].getComp().Equals("Identificador") || tokensAnalizados[i].getLex().Equals("Ɛ"))
                 {
                     if ((i + 1) < tokensAnalizados.Count)
                     {
@@ -325,85 +320,120 @@ namespace AnalizadorLexico
                 return SearchIndex(tokensAnalizados, p_a, p_c, index + 1);
             }
         }
-        public List<Token> AnalizarCadena(string cadena)
-        {
-            //salidaConsola = "";
-            List<Token> tokensAnalizados = new List<Token>();
-            analisisLexico = "==== ANALIZADOR LÉXICO ====\n";
-            Console.WriteLine("==== ANALIZADOR LÉXICO By Samuel Burelos Jerónimo ====\n");
+        
 
+
+
+
+        public List<Token> AnalyzeString(string cadena)
+        {
+            //Almacena la cadena convertida en Tokens
+            List<Token> stringConverted = new List<Token>();
+
+            //Bucle que recorre el tamaño de la cadena
             while (cadena.Length > 0)
             {
+                //Obtiene el primer caracter de la cadena
                 string c = cadena.Substring(0, 1);
+
+                //Verifica si el caracter es un IDENTIFICADOR
                 if (Regex.IsMatch(c, @"^[0-9]*$") || Regex.IsMatch(c, @"^[A-Z]*$") || Regex.IsMatch(c, @"^[a-z]*$"))
                 {
+                    //Busca si el siguiente caracter es un identificador tambien
                     string ident = c + SearchNextAZ_09(cadena.Substring(1));
-                    analisisLexico += "\n<Identificador>       " + ident;
-                    Console.WriteLine("<Identificador>       " + ident);
-                    tokensAnalizados.Add(new Token(ident, "Identificador"));
+                    //Inicializa un nuevo token y lo agrega como identificador
+                    stringConverted.Add(new Token(ident, "Identificador"));
+                    //Si se encontró más identificadores es necesario eliminar la parte ya leida
                     cadena = cadena.Substring(ident.Length);
+                    continue;
                 }
-                else
+
+                // Verifica de el caracter es un OPERADOR
+                if (cadena.Length > 1 && c.Equals("^"))
                 {
-                    if (cadena.Length > 1 && c.Equals("^"))
-                    {
-                        string lt = cadena.Substring(1, 1);
-                        if (lt.Equals("*") || lt.Equals("+"))
-                        {
-                            analisisLexico += "\n<Operador>           " + cadena.Substring(0, 2);
-                            Console.WriteLine("<Operador>           " + cadena.Substring(0, 2));
-                            tokensAnalizados.Add(new Token(cadena.Substring(0, 2), "Operador"));
-                            if (cadena.Length > 2 && cadena.Substring(2, 1).Equals("*"))
-                                cadena = cadena.Substring(3);
-                            else
-                                cadena = cadena.Substring(2);
-                        }
-                        else if (Regex.IsMatch(lt, @"^[0-9]*$"))
-                        {
-                            string ident = c + SearchNextAZ_09(cadena.Substring(1));
-                            Console.WriteLine("<Operador>           " + ident);
-                            analisisLexico += "\n<Operador>           " + ident;
-                            tokensAnalizados.Add(new Token(ident, "Operador"));
-                            cadena = cadena.Substring(ident.Length);
-                        }
+                    //Obtiene el valor del exponente
+                    string expType = cadena.Substring(1, 1);
+
+                    //Valida si es una cerradura de Kleene o una Positiva
+                    if (expType.Equals("*") || expType.Equals("+")) {
+                        //Inicializa un nuevo token y lo agrega como operador
+                        stringConverted.Add(new Token(cadena.Substring(0, 2), "Operador"));
+                        /* Verifica si aun quedan carateres que analizar...
+                         * De ser asi valida si el siguiente signo es otro '*'
+                         */
+                        if (cadena.Length > 2 && cadena.Substring(2, 1).Equals("*"))
+                            cadena = cadena.Substring(3);//Recorre la cadena en 3 posiciones
                         else
-                        {
-                            Console.WriteLine("Error de Sinstaxis");
-                        }
+                            cadena = cadena.Substring(2);//Recorre la cadena en 2 posiciones
+                        continue;
                     }
-                    else if (c.Equals("(") || c.Equals(")"))
-                    {
-                        tokensAnalizados.Add(new Token(c, "Agrupador"));
-                        analisisLexico += "\n<Agrupador>           " + c;
-                        Console.WriteLine("<Agrupador>          " + c);
-                        cadena = cadena.Substring(1);
+
+                    //Valida si es una exponenciación
+                    if (Regex.IsMatch(expType, @"^[0-9]*$")) {
+                        //Busca si el siguiente caracter es un identificador tambien
+                        string ident = c + SearchNextAZ_09(cadena.Substring(1));
+                        //Inicializa un nuevo token y lo agrega como Operador
+                        stringConverted.Add(new Token(ident, "Operador"));
+                        //Recorre la cadena segun el tamaño de ident
+                        cadena = cadena.Substring(ident.Length);
+                        continue;
                     }
-                    else if (c.Equals("|") || c.Equals("."))
-                    {
-                        tokensAnalizados.Add(new Token(c, "Operador"));
-                        analisisLexico += "\n<Operador>           " + c;
-                        Console.WriteLine("<Operador>           " + c);
-                        cadena = cadena.Substring(1);
-                    }
-                    else if (c.Equals("Ɛ"))
-                    {
-                        tokensAnalizados.Add(new Token("Ɛ", "Constante"));
-                        Console.WriteLine("<Constante>          " + c);
-                        analisisLexico += "\n<Constante>           " + c;
-                        cadena = cadena.Substring(1);
-                    }
-                    else
-                    {
-                        tokensAnalizados.Add(new Token(c, "No identificado"));
-                        Console.WriteLine("\n<DESCONOCIDO>        " + c);
-                        analisisLexico += "<Desconocido>           " + c;
-                        cadena = cadena.Substring(1);
-                    }
+                    //Si no es ninguna de las anteriores entonces tiene un error de sintaxis
+                    Console.WriteLine("Error de Sinstaxis");
+                    continue;
+                }
+                //Valida los tokens sencillos
+                if (c.Equals("(") || c.Equals(")")) {
+                    stringConverted.Add(new Token(c, "Agrupador"));
+                    cadena = cadena.Substring(1);
+                }
+                else if (c.Equals("|") || c.Equals(".")) {
+                    stringConverted.Add(new Token(c, "Operador"));
+                    cadena = cadena.Substring(1);
+                }
+                else if (c.Equals("Ɛ")) {
+                    stringConverted.Add(new Token("Ɛ", "Constante"));
+                    cadena = cadena.Substring(1);
+                }
+                else {   
+                    stringConverted.Add(new Token(c, "No identificado"));
+                    cadena = cadena.Substring(1);
                 }
             }
-            //salidaConsola += analisisLexico+"\n";
-            return tokensAnalizados;
+            Console.WriteLine(leerAnalisis(stringConverted));
+            return stringConverted;
         }
+
+        /* 
+         * Nivel 1: Resolver Union y concatenacion
+         * Nivel 2: Resolver Exponenciación, kleen y cerradura positiva
+         * Nivel 3: Resolver Agrupaciones
+         * 
+         * Con arboles de derivaciones ascendente y desendente, ahi esta la clave
+         * 
+         * Paso 1: Crear un método para resolver las concatenaciones y uniones
+         * Paso 2: Crear un método para resolver las exponenciaciones
+         * Paso 3: Crear un método para eliminar los parentesis
+         *      Caso 1: Puede quedar un arreglo: [],[],[]...
+         *      Caso 2: Puede quedar varios arreglos en uniones: ([],[]...|[],[]...|[],[]...) 
+         */
+
+
+        public string leerAnalisis(List<Token> analisis)
+        {
+            string final = "======= ANÁLISIS LEXICO =======\n";
+            foreach (Token token in analisis)
+            {
+                final += "\n<"+token.getComp()+">"+"    "+token.getLex();
+            }
+            return final;
+        }
+
+
+
+
+
+
         private string SearchNextAZ_09(string cadena)
         {
             if (string.IsNullOrEmpty(cadena))

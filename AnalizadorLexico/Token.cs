@@ -9,12 +9,12 @@ namespace AnalizadorLexico
     public class Token
     {
         private String lexema;
-        private String categ;
+        private String component;
 
-        public Token(String lexema, String categ)
+        public Token(String lexema, String component)
         {
             this.lexema = lexema;
-            this.categ = categ;
+            this.component = component;
         }
 
         public String getLex()
@@ -22,9 +22,9 @@ namespace AnalizadorLexico
             return this.lexema;
         }
 
-        public String getCateg()
+        public String getComp()
         {
-            return this.categ;
+            return this.component;
         }
 
     }

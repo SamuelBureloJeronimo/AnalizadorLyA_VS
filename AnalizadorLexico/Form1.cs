@@ -6,7 +6,7 @@ namespace AnalizadorLexico
 {
     public partial class Form1 : Form
     {
-        AnalizadorLexico al = new AnalizadorLexico();
+        AnalisysLex al = new AnalisysLex();
 
         public Form1()
         {
@@ -15,12 +15,15 @@ namespace AnalizadorLexico
 
         private void bunifuFlatButton7_Click(object sender, EventArgs e)
         {
-            al.analisisLexico = "";
-            al.salidaConsola = "";
-            List<String> solucionFinal = al.solucionFinal(al.IdentificarOrden(al.AnalizarCadena(entrada.Text)));
-            salida1.Text = String.Join(", ", solucionFinal);
-            salida2.Text = al.analisisLexico;
-            consola.Text = al.salidaConsola;
+            //List<String> solucionFinal = al.solucionFinal(al.IdentificarOrden(al.AnalyzeString(entrada.Text)));
+            //salida1.Text = String.Join(", ", solucionFinal);
+            List<Token> tokes = al.lexicalAnalysis(entrada.Text);
+            salida2.Text = al.leerAnalisis(tokes);
+
+            if (al.AnalisysSyntactic(tokes, 0))
+                consola.Text = "Analisis sintactico PASADO";
+            else
+                consola.Text = "Analisis sintactico NO PASADO";
         }
 
         private void bunifuFlatButton8_Click(object sender, EventArgs e)

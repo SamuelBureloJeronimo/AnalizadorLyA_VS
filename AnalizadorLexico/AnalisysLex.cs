@@ -74,6 +74,11 @@ namespace AnalizadorLexico
                 //Validate the exponent type
                 if (c.Equals("^"))
                 {
+                    if(value.Length == 1)
+                    {
+                        sequence.Add(new Token(c, "No identificado"));
+                        return sequence;
+                    }
                     //Gets the value of exponent
                     string expType = value.Substring(1, 1);
 
@@ -133,21 +138,11 @@ namespace AnalizadorLexico
             return sequence;
         }
 
-        public Boolean AnalisysSyntactic(List<Token> value, int pO, int pC)
+        public Boolean AnalisysSyntactic(List<Token> value)
         {
-            // Acepta una abertura siempre y cuando sea mayor o igual al de cierre
-            if (value[0].getLex().Equals("(") && pO >= pC)
-            {
-                value.RemoveAt(0);
-                return AnalisysSyntactic(value, pO+1, pC);
-            }
             // Q_0 ->   [(]   -> Q_1
-            else if (value[0].getLex().Equals(")") && pO > pC)
+            if (value[0].getLex().Equals("("))
             {
-                value.RemoveAt(0);
-                return AnalisysSyntactic(value, pO, pC+1);
-
-                /*
                 // Q_1 ->   [Identificador, Ɛ]    -> Q_4
                 Boolean isUnion;
                 do
@@ -217,7 +212,7 @@ namespace AnalizadorLexico
                     }
                     else return false;
                 }
-                */
+                
             }
 
             // Q_0 ->   [Identificador, Ɛ]    -> Q_2
@@ -225,25 +220,25 @@ namespace AnalizadorLexico
             {
                 value.RemoveAt(0);
                 // Q_2 ->   [null]   -> -- ACEPTADA --
-                if (value.Count == 0 && pO == 0)
+                if (value.Count == 0)
                     return true;
                 // Q_2 ->   [Kleen, Positiva, Expon]  -> Q_3
                 else if (value[0].getLex().Equals("^*") || value[0].getLex().Equals("^+") || value[0].getComp().Equals("Exponenciacion"))
                 {
                     value.RemoveAt(0);
                     // Q_3 ->   [null]   -> -- ACEPTADA --
-                    if (value.Count == 0 && pO == 0)
+                    if (value.Count == 0)
                         return true;
                     //Q_3 ->    [Concatenación]   -> Q_0
                     else if (value[0].getLex().Equals(".") || value[0].getLex().Equals("|"))
                     {
                         value.RemoveAt(0);
-                        return AnalisysSyntactic(value, pO);
+                        return AnalisysSyntactic(value);
                     }
                     else if (value[0].getLex().Equals(")"))
                     {
                         value.RemoveAt(0);
-                        return AnalisysSyntactic(value, pO-1);
+                        return AnalisysSyntactic(value);
                     }
                     else return false;
                 }
@@ -251,7 +246,7 @@ namespace AnalizadorLexico
                 else if (value[0].getLex().Equals(".") || value[0].getLex().Equals("|"))
                 {
                     value.RemoveAt(0);
-                    return AnalisysSyntactic(value, pO);
+                    return AnalisysSyntactic(value);
                 }
                 else return false;
             }

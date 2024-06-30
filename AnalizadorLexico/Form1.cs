@@ -20,7 +20,7 @@ namespace AnalizadorLexico
             List<Token> tokes = al.lexicalAnalysis(entrada.Text);
             salida2.Text = al.leerAnalisis(tokes);
 
-            if (al.AnalisysSyntactic(tokes, 0))
+            if (al.AnalisysSyntactic(tokes))
                 consola.Text = "Analisis sintactico PASADO";
             else
                 consola.Text = "Analisis sintactico NO PASADO";

@@ -5,8 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace AnalizadorLexico
 {
-    
-    public class AnalisysLex
+
+    public class Analisys
     {
 
         /*
@@ -23,7 +23,7 @@ namespace AnalizadorLexico
          * Identificador 		->	letra, r    ->  Letra o digito seguido de más letras o digitos
          * 
          */
-        public List<Token> lexicalAnalysis(string value)
+        public List<Token> lexical(string value)
         {
             //Stores the string converted to tokens
             List<Token> sequence = new List<Token>();
@@ -74,7 +74,7 @@ namespace AnalizadorLexico
                 //Validate the exponent type
                 if (c.Equals("^"))
                 {
-                    if(value.Length == 1)
+                    if (value.Length == 1)
                     {
                         sequence.Add(new Token(c, "No identificado"));
                         return sequence;
@@ -137,83 +137,91 @@ namespace AnalizadorLexico
             }
             return sequence;
         }
-
-        public Boolean AnalisysSyntactic(List<Token> value)
-        {
-            // Q_0 ->   [(]   -> Q_1
-            if (value[0].getLex().Equals("("))
+        
+        
+        private Boolean parenthesisResolve(List<Token> value){
+            // Q_1 ->   [Identificador, Ɛ]    -> Q_4
+            Boolean isUnion;
+            do
             {
-                // Q_1 ->   [Identificador, Ɛ]    -> Q_4
-                Boolean isUnion;
+                isUnion = false;
                 do
                 {
                     isUnion = false;
-                    do
-                    {
-                        isUnion = false;
-                        value.RemoveAt(0);
-                        //Q_4 - Validating
-                        if (value[0].getComp().Equals("Identificador") || value[0].getLex().Equals("Ɛ"))
-                        {
-                            value.RemoveAt(0);
-                            // Verifica si el siguiente valor es una union
-                            if (value[0].getLex().Equals("|") && value[0] != null)
-                                isUnion = true;
-                            else
-                                isUnion = false;
-                        }
-                        // ERROR DE SINTAXIS
-                        else return false;
-
-                        // Q_4 ->>LOOP>>    [Unión]   ->>LOOP>> Q_1
-                    } while (isUnion);
-
-                    // Q_4 ->    [Kleen, Positiva, Expon]   -> Q_5
-                    if (value[0].getLex().Equals("^*") || value[0].getLex().Equals("^+") || value[0].getComp().Equals("Exponenciacion"))
+                    value.RemoveAt(0);
+                    if (value.Count == 0) return false;
+                    //Q_4 - Validating
+                    if (value[0].getComp().Equals("Identificador") || value[0].getLex().Equals("Ɛ"))
                     {
                         value.RemoveAt(0);
+                        if (value.Count == 0) return false;
                         // Verifica si el siguiente valor es una union
                         if (value[0].getLex().Equals("|") && value[0] != null)
                             isUnion = true;
                         else
                             isUnion = false;
                     }
-                    // Q_5 ->>LOOP>>    [Unión]   ->>LOOP>> Q_1
+                    // ERROR DE SINTAXIS
+                    else return false;
+
+                    // Q_4 ->>LOOP>>    [Unión]   ->>LOOP>> Q_1
                 } while (isUnion);
 
-                //Q_5 ->    [)]   -> Q_6
-                if (value[0].getLex().Equals(")"))
+                // Q_4 ->    [Kleen, Positiva, Expon]   -> Q_5
+                if (value[0].getLex().Equals("^*") || value[0].getLex().Equals("^+") || value[0].getComp().Equals("Exponenciacion"))
                 {
                     value.RemoveAt(0);
-                    // Q_6 ->   [null]   -> -- ACEPTADA --
+                    if (value.Count == 0) return false;
+                    // Verifica si el siguiente valor es una union
+                    if (value[0].getLex().Equals("|") && value[0] != null)
+                        isUnion = true;
+                    else
+                        isUnion = false;
+                }
+                // Q_5 ->>LOOP>>    [Unión]   ->>LOOP>> Q_1
+            } while (isUnion);
+
+            //Q_5 ->    [)]   -> Q_6
+            if (value[0].getLex().Equals(")"))
+            {
+                value.RemoveAt(0);
+                // Q_6 ->   [null]   -> -- ACEPTADA --
+                if (value.Count == 0)
+                    return true;
+                // Q_6 ->   [Kleen, Positiva, Expon]   -> Q_7
+                else if (value[0].getLex().Equals("^*") || value[0].getLex().Equals("^+") || value[0].getComp().Equals("Exponenciacion"))
+                {
+                    value.RemoveAt(0);
+                    // Q_7 ->   [null]   -> -- ACEPTADA --
                     if (value.Count == 0)
                         return true;
-                    // Q_6 ->   [Kleen, Positiva, Expon]   -> Q_7
-                    else if (value[0].getLex().Equals("^*") || value[0].getLex().Equals("^+") || value[0].getComp().Equals("Exponenciacion"))
-                    {
-                        value.RemoveAt(0);
-                        // Q_7 ->   [null]   -> -- ACEPTADA --
-                        if (value.Count == 0)
-                            return true;
-                        //Q_7 ->    [Concatenación]   -> Q_0
-                        else if (value[0].getLex().Equals("."))
-                        {
-                            value.RemoveAt(0);
-                            return AnalisysSyntactic(value);
-                        }
-                        else return false;
-
-                    }
-                    //Q_6 ->    [Concatenación]   -> Q_0
+                    //Q_7 ->    [Concatenación]   -> Q_0
                     else if (value[0].getLex().Equals("."))
                     {
                         value.RemoveAt(0);
-                        return AnalisysSyntactic(value);
+                        return Syntactic(value);
                     }
                     else return false;
+
                 }
-                
+                //Q_6 ->    [Concatenación]   -> Q_0
+                else if (value[0].getLex().Equals("."))
+                {
+                    value.RemoveAt(0);
+                    return Syntactic(value);
+                }
+                else return false;
             }
+            return false;
+        }
+        
+        
+        public Boolean Syntactic(List<Token> value)
+        {
+            if (value.Count == 0) return false;
+            // Q_0 ->   [(]   -> Q_1
+            if (value[0].getLex().Equals("("))
+                return parenthesisResolve(value);
 
             // Q_0 ->   [Identificador, Ɛ]    -> Q_2
             else if (value[0].getComp().Equals("Identificador") || value[0].getLex().Equals("Ɛ"))
@@ -230,23 +238,26 @@ namespace AnalizadorLexico
                     if (value.Count == 0)
                         return true;
                     //Q_3 ->    [Concatenación]   -> Q_0
-                    else if (value[0].getLex().Equals(".") || value[0].getLex().Equals("|"))
+                    else if (value[0].getLex().Equals("."))
                     {
                         value.RemoveAt(0);
-                        return AnalisysSyntactic(value);
+                        if (value.Count == 0) return false;
+                        return Syntactic(value);
                     }
                     else if (value[0].getLex().Equals(")"))
                     {
                         value.RemoveAt(0);
-                        return AnalisysSyntactic(value);
+                        if (value.Count == 0) return false;
+                        return Syntactic(value);
                     }
                     else return false;
                 }
                 //Q_2 ->    [Concatenación]   -> Q_0
-                else if (value[0].getLex().Equals(".") || value[0].getLex().Equals("|"))
+                else if (value[0].getLex().Equals("."))
                 {
                     value.RemoveAt(0);
-                    return AnalisysSyntactic(value);
+                    if (value.Count == 0) return false;
+                    return Syntactic(value);
                 }
                 else return false;
             }

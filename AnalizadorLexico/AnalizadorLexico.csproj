@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalisysLex.cs" />
+    <Compile Include="Analisys.cs" />
     <Compile Include="AnalizadorLexico.cs" />
     <Compile Include="Derivaciones.cs" />
     <Compile Include="Form1.cs">
